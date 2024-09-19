@@ -27,4 +27,17 @@ public class ProductController : ControllerBase
 
         return products;
     }
+
+    [HttpGet("{id:int}")]
+    public ActionResult<Product> GetById([FromRoute] int id)
+    {
+        var product = _context.Products.SingleOrDefault(p => p.Id == id);
+
+        if (product == null)
+        {
+            return NotFound("Product not found!");
+        }
+
+        return product;
+    }
 }
