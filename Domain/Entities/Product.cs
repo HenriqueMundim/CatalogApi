@@ -30,6 +30,8 @@ namespace CatalogApi.Domain.Entities
         [Required]
         public int CategoryId { get; set; }
 
+        public DateTime? CreatedDate { get; set; }
+
         public Category? Category { get; set; }
     }
 }
