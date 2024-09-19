@@ -55,14 +55,30 @@ public class ProductController : ControllerBase
 
     }
 
-    [HttpPut("{id:id}")]
+    [HttpPut("{id:int}")]
     public ActionResult Put(int id, Product product)
     {
-        if (product is null)
+        if (id != product.Id)
             return BadRequest();
 
         _context.Entry(product).State = EntityState.Modified;
+        _context.SaveChanges();
 
         return NoContent();
+    }
+
+    [HttpDelete("{id:int}")]
+    public ActionResult Delete(int id)
+    {
+        var product = _context.Products.SingleOrDefault(p => p.Id == id);
+
+        if (product is null)
+            return BadRequest();
+
+        _context.Products.Remove(product);
+        _context.SaveChanges();
+
+        return NoContent();
+
     }
 }
