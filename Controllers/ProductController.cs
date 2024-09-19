@@ -1,6 +1,7 @@
 using CatalogApi.Context;
 using CatalogApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogApi.Controllers;
 
@@ -52,5 +53,16 @@ public class ProductController : ControllerBase
 
         return new CreatedAtRouteResult("GetProduct", new { id = product.Id }, product);
 
+    }
+
+    [HttpPut("{id:id}")]
+    public ActionResult Put(int id, Product product)
+    {
+        if (product is null)
+            return BadRequest();
+
+        _context.Entry(product).State = EntityState.Modified;
+
+        return NoContent();
     }
 }
