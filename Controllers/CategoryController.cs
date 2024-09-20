@@ -2,6 +2,7 @@ using CatalogApi.Context;
 using CatalogApi.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogApi.Controllers;
 
@@ -33,6 +34,32 @@ public class CategoryController : ControllerBase
             return NotFound("Category not found!");
 
         return category;
+    }
+
+    [HttpPost]
+    public ActionResult<Category> Post(Category category)
+    {
+        if (category is null)
+            return BadRequest();
+
+        _context.Categories.Add(category);
+        _context.SaveChanges();
+
+        return new CreatedAtRouteResult("GetCategory",
+            new { id = category.Id }, category);
+    }
+
+
+    [HttpPut("{id:int}")]
+    public ActionResult Put(int id, Category category)
+    {
+        if (category.Id != id)
+            return BadRequest();
+
+        _context.Entry(category).State = EntityState.Modified;
+        _context.SaveChanges();
+
+        return NoContent();
     }
 }
 
