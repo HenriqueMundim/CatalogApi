@@ -25,6 +25,14 @@ public class CategoryController : ControllerBase
         return categories;
     }
 
+    [HttpGet("products")]
+    public ActionResult<IEnumerable<Category>> GetCategoriesProducts()
+    {
+        var categories = _context.Categories.Include(p => p.Products).ToList();
+
+        return categories;
+    }
+
     [HttpGet("{id:int}", Name = "GetCategory")]
     public ActionResult<Category> GetById(int id)
     {
@@ -57,6 +65,20 @@ public class CategoryController : ControllerBase
             return BadRequest();
 
         _context.Entry(category).State = EntityState.Modified;
+        _context.SaveChanges();
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id:int}")]
+    public ActionResult Delete(int id)
+    {
+        var category = _context.Categories.Find(id);
+
+        if (category is null)
+            return NotFound("Category not found!");
+
+        _context.Categories.Remove(category);
         _context.SaveChanges();
 
         return NoContent();

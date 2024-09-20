@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CatalogApi.Domain.Entities
 {
@@ -32,6 +33,7 @@ namespace CatalogApi.Domain.Entities
 
         public DateTime? CreatedDate { get; set; }
 
+        [JsonIgnore]
         public Category? Category { get; set; }
     }
 }
