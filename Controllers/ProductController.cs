@@ -17,9 +17,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Product>> Get()
+    public async Task<ActionResult<IEnumerable<Product>>> Get()
     {
-        var products = _context.Products.AsNoTracking().ToList();
+        var products = await _context.Products.AsNoTracking().ToListAsync();
 
         if (products is null)
         {
@@ -30,9 +30,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "GetProduct")]
-    public ActionResult<Product> GetById([FromRoute] int id)
+    public async Task<ActionResult<Product>> GetById([FromRoute] int id)
     {
-        var product = _context.Products.AsNoTracking().SingleOrDefault(p => p.Id == id);
+        var product = await _context.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
 
         if (product == null)
         {
