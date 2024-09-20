@@ -24,7 +24,7 @@ public class CategoryController : ControllerBase
         return categories;
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = "GetCategory")]
     public ActionResult<Category> GetById(int id)
     {
         var category = _context.Categories.FirstOrDefault(c => c.Id == id);
