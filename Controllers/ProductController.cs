@@ -19,7 +19,7 @@ public class ProductController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Product>> Get()
     {
-        var products = _context.Products.ToList();
+        var products = _context.Products.AsNoTracking().ToList();
 
         if (products is null)
         {
@@ -32,7 +32,7 @@ public class ProductController : ControllerBase
     [HttpGet("{id:int}", Name = "GetProduct")]
     public ActionResult<Product> GetById([FromRoute] int id)
     {
-        var product = _context.Products.SingleOrDefault(p => p.Id == id);
+        var product = _context.Products.AsNoTracking().SingleOrDefault(p => p.Id == id);
 
         if (product == null)
         {
