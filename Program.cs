@@ -1,4 +1,5 @@
 using CatalogApi.Context;
+using CatalogApi.Extensions;
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -33,6 +34,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ConfigureExceptionHandler();
 }
 
 app.UseHttpsRedirection();
