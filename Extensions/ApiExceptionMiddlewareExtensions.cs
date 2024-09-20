@@ -1,5 +1,6 @@
 using CatalogApi.Domain.Entities;
 using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
 
 namespace CatalogApi.Extensions;
 
@@ -11,7 +12,7 @@ public static class ApiExceptionMiddlewareExtensions
         {
             app.Run(async context =>
             {
-                context.Response.StatusCode = 500;
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();

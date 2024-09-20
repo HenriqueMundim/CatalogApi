@@ -1,5 +1,6 @@
 using CatalogApi.Context;
 using CatalogApi.Domain.Entities;
+using CatalogApi.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(ApiLoggingFilter))]
     public async  Task<ActionResult<IEnumerable<Category>>> Get()
     {
         var categories = await _context.Categories.AsNoTracking().ToListAsync();
