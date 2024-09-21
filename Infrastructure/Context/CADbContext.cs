@@ -1,7 +1,7 @@
 using CatalogApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CatalogApi.Context
+namespace CatalogApi.Infrastructure.Context
 {
     public class CADbContext : DbContext
     {

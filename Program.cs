@@ -1,6 +1,9 @@
-using CatalogApi.Context;
-using CatalogApi.Extensions;
-using CatalogApi.Filters;
+using CatalogApi.Domain.Interfaces;
+using CatalogApi.Domain.Services;
+using CatalogApi.Infrastructure.Context;
+using CatalogApi.Infrastructure.Extensions;
+using CatalogApi.Infrastructure.Filters;
+using CatalogApi.Infrastructure.Repositories;
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -29,6 +32,8 @@ builder.Services.AddDbContext<CADbContext>(options =>
 });
 
 builder.Services.AddScoped<ApiLoggingFilter>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 
@@ -37,9 +42,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.ConfigureExceptionHandler();
     app.ConfigureExceptionHandler();
-
 }
 
 app.UseHttpsRedirection();

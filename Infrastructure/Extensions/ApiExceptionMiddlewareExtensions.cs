@@ -2,7 +2,7 @@ using CatalogApi.Domain.Entities;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
-namespace CatalogApi.Extensions;
+namespace CatalogApi.Infrastructure.Extensions;
 
 public static class ApiExceptionMiddlewareExtensions
 {
@@ -10,13 +10,12 @@ public static class ApiExceptionMiddlewareExtensions
     {
         app.UseExceptionHandler(appError =>
         {
-            app.Run(async context =>
+            appError.Run(async context =>
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-
                 if (contextFeature != null)
                 {
                     await context.Response.WriteAsync(new ErrorDetails()
@@ -30,4 +29,3 @@ public static class ApiExceptionMiddlewareExtensions
         });
     }
 }
-

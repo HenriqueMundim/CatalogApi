@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CatalogApi.Filters;
+namespace CatalogApi.Infrastructure.Filters;
 
 public class ApiLoggingFilter : IActionFilter
 {

@@ -1,9 +1,9 @@
-using CatalogApi.Context;
 using CatalogApi.Domain.Entities;
+using CatalogApi.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CatalogApi.Controllers;
+namespace CatalogApi.Application.Controllers;
 
 [Route("v1/api/[controller]")]
 [ApiController]
