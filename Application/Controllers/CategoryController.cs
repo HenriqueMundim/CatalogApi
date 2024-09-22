@@ -47,7 +47,7 @@ public class CategoryController : ControllerBase
     {
         var newCategory = await _service.Create(category);
 
-        return new CreatedAtRouteResult("Getcategory", new { id = newCategory.Id }, newCategory);
+        return new CreatedAtRouteResult("GetCategory", new { id = newCategory.Id }, newCategory);
     }
 
 

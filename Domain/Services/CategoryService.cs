@@ -1,4 +1,5 @@
 using CatalogApi.Domain.Entities;
+using CatalogApi.Domain.Errors;
 using CatalogApi.Domain.Interfaces;
 
 namespace CatalogApi.Domain.Services
@@ -75,7 +76,7 @@ namespace CatalogApi.Domain.Services
             var isExists = await _repository.FindById(id);
 
             if (isExists is null)
-                throw new ArgumentException($"Category with {id} ID not found");
+                throw new NotFoundException("Category not found", 404);
 
             await _repository.Delete(isExists);
         }

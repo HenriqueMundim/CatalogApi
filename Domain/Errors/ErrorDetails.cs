@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace CatalogApi.Domain.Entities
+namespace CatalogApi.Domain.Errors
 {
     public class ErrorDetails
     {
