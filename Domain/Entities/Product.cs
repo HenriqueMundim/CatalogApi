@@ -33,7 +33,6 @@ namespace CatalogApi.Domain.Entities
 
         public DateTime? CreatedDate { get; set; }
 
-        [JsonIgnore]
         public Category? Category { get; set; }
     }
 }

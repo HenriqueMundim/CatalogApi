@@ -1,7 +1,6 @@
 using CatalogApi.Domain.Entities;
-using CatalogApi.Infrastructure.Context;
+using CatalogApi.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CatalogApi.Application.Controllers;
 
@@ -9,76 +8,56 @@ namespace CatalogApi.Application.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-    private readonly CADbContext _context;
+    private readonly ProductService _service;
 
-    public ProductController(CADbContext context)
+    public ProductController(ProductService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Product>>> Get()
     {
-        var products = await _context.Products.AsNoTracking().ToListAsync();
+        var products = await _service.GetAll();
+        return Ok(products);
+    }
 
-        if (products is null)
-        {
-            return NotFound("Product not Found!");
-        }
-
-        return products;
+    [HttpGet("category")]
+    public async Task<ActionResult<IEnumerable<Product>>> GetWIthCategory()
+    {
+        var products = await _service.GetAllWithCategory();
+        return Ok(products);
     }
 
     [HttpGet("{id:int}", Name = "GetProduct")]
     public async Task<ActionResult<Product>> GetById([FromRoute] int id)
     {
-        var product = await _context.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
+        var product = await _service.GetById(id);
 
-        if (product == null)
-        {
-            return NotFound("Product not found!");
-        }
-
-        return product;
+        return Ok(product);
     }
 
     [HttpPost]
-    public ActionResult Post(Product product)
+    public async Task<ActionResult> Post(Product product)
     {
-        if (product is null)
-            return BadRequest();
+        var newProduct = await _service.Create(product);
 
-        _context.Products.Add(product);
-        _context.SaveChanges();
-
-        return new CreatedAtRouteResult("GetProduct", new { id = product.Id }, product);
-
+        return new CreatedAtRouteResult("GetProduct", new { id = newProduct.Id }, newProduct);
     }
 
     [HttpPut("{id:int}")]
-    public ActionResult Put(int id, Product product)
+    public async Task<ActionResult> Put(int id, Product product)
     {
-        if (id != product.Id)
-            return BadRequest();
-
-        _context.Entry(product).State = EntityState.Modified;
-        _context.SaveChanges();
+        await _service.Update(id, product);
 
         return NoContent();
     }
 
     [HttpDelete("{id:int}")]
-    public ActionResult Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
-        var product = _context.Products.SingleOrDefault(p => p.Id == id);
+       await _service.Delete(id);
 
-        if (product is null)
-            return BadRequest();
-
-        _context.Products.Remove(product);
-        _context.SaveChanges();
-
-        return NoContent();
-
+       return NoContent();
     }
 }

@@ -25,15 +25,6 @@ public class CategoryController : ControllerBase
         return Ok(categories);
     }
 
-    [HttpGet("products")]
-    public async Task<ActionResult<IEnumerable<Category>>> GetCategoriesProducts()
-    {
-        var categories = await _service.GetAllWithProducts();
-
-        return Ok(categories);
-        
-    }
-
     [HttpGet("{id:int}", Name = "GetCategory")]
     public async Task<ActionResult<Category>> GetById(int id)
     {

@@ -32,21 +32,10 @@ namespace CatalogApi.Domain.Services
             return categories;
         }
 
-        public async Task<IEnumerable<Category>> GetAllWithProducts()
-        {
-            var categories = await _repository.GetAllWithProducts();
-
-            if (categories is null)
-                throw new ArgumentException("Not found");
-
-            return categories;
-
-        }
-
         public async Task<Category> Create(Category category)
         {
             if (category is null)
-                throw new ArgumentException($"{nameof(category)} is null");
+                throw new ArgumentException("Category is null");
 
             var newCartegory = await _repository.Create(category);
 
@@ -76,7 +65,7 @@ namespace CatalogApi.Domain.Services
             var isExists = await _repository.FindById(id);
 
             if (isExists is null)
-                throw new NotFoundException("Category not found", 404);
+                throw new NotFoundException("Category not found");
 
             await _repository.Delete(isExists);
         }
